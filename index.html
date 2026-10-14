@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>我的第一个网页</title>
+    <style>
+		   /* 全局：去掉默认边距，设置字体 */
+		* {
+		  margin: 0;
+		  padding: 0;
+		  box-sizing: border-box;
+		}
+		
+		body {
+		  font-family: "Microsoft YaHei", sans-serif;
+		  background-color: #f5f6fa;
+		  color: #333;
+		  line-height: 1.6;
+		  padding: 40px 20px;
+		}
+		
+		/* 每个区块做成一张白卡片 */
+		div {
+		  background-color: #ffffff;
+		  max-width: 600px;
+		  margin: 0 auto 20px auto;
+		  padding: 24px;
+		  border-radius: 12px;
+		  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+		}
+		
+		/* 头像变圆 */
+		img {
+		  border-radius: 50%;
+		  display: block;
+		  margin-bottom: 12px;
+		}
+		
+		/* 标题颜色 */
+		h1 {
+		  font-size: 28px;
+		  margin-bottom: 8px;
+		}
+		
+		h2 {
+		  font-size: 20px;
+		  margin-bottom: 12px;
+		  color: #EE82EE;
+		}
+		
+		/* 链接样式 */
+		a {
+		  color: #4a6cf7;
+		  text-decoration: none;
+		}
+		
+		a:hover {
+		  text-decoration: underline;
+		}
+		/* 兴趣标签横向排列 */
+		ul {
+		  display: flex;
+		  gap: 10px;
+		  flex-wrap: wrap;
+		}
+		
+		li {
+		  list-style: none;
+		  background-color: #eef1ff;
+		  color: #4a6cf7;
+		  padding: 6px 14px;
+		  border-radius: 20px;
+		  font-size: 14px;
+		}
+		/* 头部：头像和文字左右并排 */
+		.header {
+		  display: flex;
+		  align-items: center;
+		  gap: 20px;
+		}
+		
+		/* 头像不要被压缩 */
+		.header img {
+		  flex-shrink: 0;
+		}
+		
+		/* 文字区域 */
+		.header-text h1 {
+		  margin-bottom: 6px;
+		}
+		button {
+		  margin-top: 12px;
+		  padding: 8px 18px;
+		  background-color: #4a6cf7;
+		  color: #fff;
+		  border: none;
+		  border-radius: 8px;
+		  cursor: pointer;
+		  font-size: 14px;
+		}
+		
+		button:hover {
+		  opacity: 0.85;
+		}
+  </style>
+</head>
+<body>
+
+
+  <!-- 头部：头像和名字 -->
+  <div class="header" >
+    <img src="avatar.jpg" alt="我的头像" width="120">
+    <h1>我是omobr</h1>
+    <p>[一句话介绍自己，比如：一名正在学习网页开发的大学生]</p>
+  </div>
+
+  <!-- 关于我 -->
+  <div>
+    <h2>关于我</h2>
+    <p>这里写一段自我介绍。可以写你的专业、兴趣、正在学什么、想做什么。</p>
+  </div>
+
+  <!-- 兴趣标签 -->
+  <div>
+    <h2>我的兴趣</h2>
+    <ul>
+      <li>编程</li>
+      <li>摄影</li>
+      <li>旅行</li>
+    </ul>
+  </div>
+
+  <!-- 联系方式 -->
+  <div>
+    <h2>联系我</h2>
+    <p>邮箱：<a href="mailto:2557969411@qq.com">2557969411@qq.com</a></p>
+    <button id="themeBtn">切换主题色</button>
+  </div>
+<script>
+  var btn = document.getElementById('themeBtn');
+  var isBlue = true;
+
+  btn.onclick = function () {
+    if (isBlue) {
+      document.body.style.backgroundColor = '#e8f5e9';
+      isBlue = false;
+    } else {
+      document.body.style.backgroundColor = '#f5f6fa';
+      isBlue = true;
+    }
+  };
+</script>
+
+</body>
+</html>
