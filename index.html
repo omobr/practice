@@ -102,6 +102,21 @@
 		button:hover {
 		  opacity: 0.85;
 		}
+		.course-btn {
+		  display: inline-block;
+		  margin-top: 15px;
+		  padding: 10px 20px;
+		  background-color: #EE82EE; /* 配合你的标题颜色 */
+		  color: #fff;
+		  border-radius: 8px;
+		  text-decoration: none;
+		  transition: 0.2s;
+}
+
+.course-btn:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
   </style>
 </head>
 <body>
@@ -128,14 +143,23 @@
       <li>摄影</li>
       <li>旅行</li>
     </ul>
+    
   </div>
-
+  <!-- 我的课程设计 -->
+  <div>
+    <h2>我的课程设计</h2>
+       
+    <!-- 关键在这里：href 指向你刚刚建的 contact.html -->
+    <a href="contact.html" class="course-btn">📒 通讯录管理系统</a>
+  </div>
+  
   <!-- 联系方式 -->
   <div>
     <h2>联系我</h2>
     <p>邮箱：<a href="mailto:2557969411@qq.com">2557969411@qq.com</a></p>
     <button id="themeBtn">切换主题色</button>
   </div>
+  
 <script>
   var btn = document.getElementById('themeBtn');
   var isBlue = true;
