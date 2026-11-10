@@ -4,126 +4,35 @@
   <meta charset="UTF-8">
   <title>通讯录管理系统</title>
   <style>
-    /* 这里写通讯录专属的样式，和主页保持一致的设计风格 */
-    body {
-      font-family: "Microsoft YaHei", sans-serif;
-      background-color: #f5f6fa;
-      color: #333;
-      line-height: 1.6;
-      padding: 40px 20px;
-    }
-    
-    .container {
-      background-color: #ffffff;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    }
-
-    h1 {
-      color: #EE82EE; /* 保持你的粉色标题 */
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-
-    /* 返回按钮 */
-    .back-btn {
-      display: inline-block;
-      margin-bottom: 20px;
-      color: #4a6cf7;
-      text-decoration: none;
-      font-size: 14px;
-    }
-    .back-btn:hover {
-      text-decoration: underline;
-    }
-
-    /* 输入区 */
-    .input-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .input-group input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      min-width: 120px;
-      outline: none;
-    }
-    
-    .input-group input:focus {
-      border-color: #4a6cf7;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: #4a6cf7;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background-color: #3852d6;
-    }
-
-    /* 列表区 */
-    #contactList {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .contact-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #fafafa;
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      border-left: 4px solid #EE82EE;
-    }
-
-    .contact-info strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .contact-info span {
-      font-size: 13px;
-      color: #777;
-    }
-
-    .delete-btn {
-      background-color: #ff4d4f;
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-    .delete-btn:hover {
-      background-color: #ff7875;
-    }
+    /* 这里是你之前的样式，保持不变 */
+    body { font-family: "Microsoft YaHei", sans-serif; background-color: #f5f6fa; color: #333; line-height: 1.6; padding: 40px 20px; }
+    .container { background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); }
+    h1 { color: #EE82EE; margin-bottom: 20px; font-size: 24px; }
+    .back-btn { display: inline-block; margin-bottom: 20px; color: #4a6cf7; text-decoration: none; font-size: 14px; }
+    .back-btn:hover { text-decoration: underline; }
+    .input-group { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .input-group input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; min-width: 120px; outline: none; }
+    .input-group input:focus { border-color: #4a6cf7; }
+    button { padding: 10px 20px; background-color: #4a6cf7; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s; }
+    button:hover { background-color: #3852d6; }
+    #contactList { list-style: none; padding: 0; margin: 0; }
+    .contact-item { display: flex; justify-content: space-between; align-items: center; background-color: #fafafa; padding: 12px 16px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #EE82EE; }
+    .contact-info strong { display: block; font-size: 16px; margin-bottom: 4px; }
+    .contact-info span { font-size: 13px; color: #777; }
+    .delete-btn { background-color: #ff4d4f; padding: 6px 12px; font-size: 12px; }
+    .delete-btn:hover { background-color: #ff7875; }
   </style>
+  <!-- 引入 Supabase 客户端 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
   <div class="container">
-    <!-- 返回主页的链接 -->
     <a href="index.html" class="back-btn">← 返回主页</a>
     
     <h1>通讯录管理系统</h1>
     
-    <div class="input-group">
+    <div class="input-group" id="inputGroup">
       <input type="text" id="phoneInput" placeholder="输入电话">
       <input type="text" id="nameInput" placeholder="输入姓名">
       <input type="text" id="addrInput" placeholder="输入地址">
@@ -136,83 +45,126 @@
   </div>
 
   <script>
-   // 1. 尝试从本地存储读取数据
-		// 相当于 C 语言里的 Read() 函数
-		var savedData = localStorage.getItem('myContacts');
-		var contacts = [];
-		
-		if (savedData) {
-		  // 如果以前存过数据，就把字符串转换回数组对象
-		  contacts = JSON.parse(savedData); 
-		}
-		
-		var phoneInput = document.getElementById('phoneInput');
-		var nameInput = document.getElementById('nameInput');
-		var addrInput = document.getElementById('addrInput');
-		var addBtn = document.getElementById('addBtn');
-		var contactList = document.getElementById('contactList');
-		
-		// 新增一个保存数据的函数
-		// 相当于 C 语言里的 Save() 函数
-		function saveData() {
-		  // 把当前的 contacts 数组转换成字符串，存入浏览器
-		  localStorage.setItem('myContacts', JSON.stringify(contacts));
-		}
-		
-		function renderList() {
-		  contactList.innerHTML = '';
-		  if (contacts.length === 0) {
-		    contactList.innerHTML = '<p style="color:#999; text-align:center;">通讯录为空，请添加联系人。</p>';
-		    return;
-		  }
-		  for (var i = 0; i < contacts.length; i++) {
-		    var item = contacts[i];
-		    var li = document.createElement('li');
-		    li.className = 'contact-item';
-		    li.innerHTML = `
-		      <div class="contact-info">
-		        <strong>${item.name}</strong>
-		        <span>📞 ${item.phone} | 📍 ${item.addr}</span>
-		      </div>
-		      <button class="delete-btn" onclick="deleteContact(${i})">删除</button>
-		    `;
-		    contactList.appendChild(li);
-		  }
-		}
-		
-		addBtn.onclick = function() {
-		  var phone = phoneInput.value.trim();
-		  var name = nameInput.value.trim();
-		  var addr = addrInput.value.trim();
-		
-		  if (phone === '' || name === '') {
-		    alert('电话和姓名不能为空！');
-		    return;
-		  }
-		
-		  contacts.push({ phone: phone, name: name, addr: addr });
-		  
-		  // 添加成功后，保存数据！
-		  saveData();
-		
-		  phoneInput.value = '';
-		  nameInput.value = '';
-		  addrInput.value = '';
-		
-		  renderList();
-		};
-		
-		function deleteContact(index) {
-		  contacts.splice(index, 1);
-		  
-		  // 删除成功后，也要保存数据！
-		  saveData();
-		  
-		  renderList();
-		}
-		
-		// 初始化页面时渲染一次列表
-		renderList();
+    // ==========================================
+    // 1. 配置（只用公开钥匙 anonKey）
+    // ==========================================
+    var supabaseUrl = 'https://amxfcjemtjngvfikdgvh.supabase.co'; 
+    var anonKey = 'sb_publishable_SeUXUNLDDDDWHQ2q0d8a8A_9P-4slui'; // 只用这一个，别填 secret 了！
+
+    // 初始化客户端
+    var db = supabase.createClient(supabaseUrl, anonKey);
+
+    // 判断是不是本地环境 (file:// 还是 https://)
+    var isLocal = window.location.protocol === 'file:';
+
+    // 获取页面元素
+    var phoneInput = document.getElementById('phoneInput');
+    var nameInput = document.getElementById('nameInput');
+    var addrInput = document.getElementById('addrInput');
+    var addBtn = document.getElementById('addBtn');
+    var contactList = document.getElementById('contactList');
+
+    // ==========================================
+    // 2. 如果是线上访问，隐藏输入框和删除按钮
+    // ==========================================
+    if (!isLocal) {
+      console.log("线上模式：只读权限");
+      document.getElementById('inputGroup').style.display = 'none';
+      var style = document.createElement('style');
+      style.innerHTML = '.delete-btn { display: none !important; }';
+      document.head.appendChild(style);
+    } else {
+      console.log("本地模式：读写权限，已配备暗号");
+    }
+
+    // ==========================================
+    // 3. 读取数据（所有人都有权限，无需暗号）
+    // ==========================================
+    async function renderList() {
+      contactList.innerHTML = '<p style="color:#999; text-align:center;">正在加载云端数据...</p>';
+      
+      var { data, error } = await db.from('contacts').select('*').order('id', { ascending: false });
+      
+      if (error) {
+        console.error('读取失败:', error);
+        contactList.innerHTML = '<p style="color:red; text-align:center;">读取云端数据失败！</p>';
+        return;
+      }
+
+      contactList.innerHTML = '';
+      if (data.length === 0) {
+        contactList.innerHTML = '<p style="color:#999; text-align:center;">通讯录为空。</p>';
+        return;
+      }
+
+      data.forEach(function(item) {
+        var li = document.createElement('li');
+        li.className = 'contact-item';
+        var itemStr = encodeURIComponent(JSON.stringify(item));
+        li.innerHTML = `
+          <div class="contact-info">
+            <strong>${item.name}</strong>
+            <span>📞 ${item.phone} | 📍 ${item.addr}</span>
+          </div>
+          <button class="delete-btn" onclick="deleteContact('${itemStr}')">删除</button>
+        `;
+        contactList.appendChild(li);
+      });
+    }
+
+    // ==========================================
+    // 4. 添加数据（带上暗号！）
+    // ==========================================
+    addBtn.onclick = async function() {
+      var phone = phoneInput.value.trim();
+      var name = nameInput.value.trim();
+      var addr = addrInput.value.trim();
+
+      if (phone === '' || name === '') {
+        alert('电话和姓名不能为空！');
+        return;
+      }
+
+      // 核心：带上暗号请求头
+      var { error } = await db.from('contacts').insert([
+        { phone: phone, name: name, addr: addr }
+      ]).setHeader('x-custom-auth', 'my-secret-pass'); 
+      
+      if (error) {
+        console.error('添加失败:', error);
+        alert('添加失败，请检查网络或暗号是否正确！');
+        return;
+      }
+
+      phoneInput.value = '';
+      nameInput.value = '';
+      addrInput.value = '';
+      renderList();
+    };
+
+    // ==========================================
+    // 5. 删除数据（带上暗号！）
+    // ==========================================
+    async function deleteContact(itemStr) {
+      if (!confirm("确定要删除这个联系人吗？")) return;
+
+      var item = JSON.parse(decodeURIComponent(itemStr));
+      
+      // 核心：带上暗号请求头
+      var { error } = await db.from('contacts').delete().eq('id', item.id)
+        .setHeader('x-custom-auth', 'my-secret-pass');
+      
+      if (error) {
+        console.error('删除失败:', error);
+        alert('删除失败！');
+        return;
+      }
+      
+      renderList();
+    }
+
+    // 页面加载时，自动拉取数据
+    renderList();
   </script>
 </body>
 </html>
